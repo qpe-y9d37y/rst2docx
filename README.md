@@ -1,7 +1,11 @@
 # NIR
 NIR - IT documentation format
 
-## File tree
+## Notice
+
+Work in progress
+
+## Files and directories
 
 Here is the file tree of this repository:
 
@@ -18,5 +22,9 @@ Here is the file tree of this repository:
     `-- vimrc
 ```
 
-- The `utils` directory contains some scripts used with NIR.
-- The `vim` directory contains configuration files to write NIR files on vim.
+### Quick description
+
+* The `utils` directory contains some scripts used with NIR.
+  - `nir2txt.py` is used to convert NIR files to structured TXT documentation file.
+  - `patina.sh` is used to help include elements into a NIR file.
+* The `vim` directory contains configuration files to write NIR files on vim.
