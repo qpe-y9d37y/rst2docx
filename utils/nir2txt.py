@@ -11,8 +11,8 @@
 #                                                                      #
 #                                                                      #
 #                                                                      #
-# Current version: 1.1                                                 #
-# Status: Stable                                                       #
+# Current version: 1.2                                                 #
+# Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to format NIR notes to documentation.         #
 #                                                                      #
@@ -27,6 +27,8 @@
 # | 20191220 | Quentin P. | 1.0  | First stable version              | #
 # +----------+------------+------+-----------------------------------+ #
 # | 20191221 | Quentin P. | 1.1  | Light optimization                | #
+# +----------+------------+------+-----------------------------------+ #
+# | 20200127 | Quentin P. | 1.2  | Author and doc var are now in ini | #
 # +----------+------------+------+-----------------------------------+ #
 #                                                                      #
 ########################################################################
@@ -46,36 +48,12 @@ import sys
 #                               VARIABLES                              #
 #                                                                      #
 
-# Author's details
-fname = "Quentin"
-lname = "Petit"
-email = "<quentin.petit@sogeti.lu>"
-corp = "Sogeti Luxembourg"
-corpad = """36 Route de Longwy
-   8080 Bertrange, Luxembourg"""
-author_short = fname[0] + ". " + lname
-
-# Document
-doctype = "Technical Documentation"
-disclaimer = """
-   The information contained in these documents is confidential,
-   privileged and only for the information of the intended recipient and
-   may not be used, published or redistributed without the prior written
-   consent of the Capgemini Group.
-
-   Due to constant changes in information technology systems and
-   applications, the information contained in this site is provided on
-   an "as is" basis with no guarantees of completeness, accuracy,
-   usefulness or timeliness.
-
-   The intended audience of this document is members of an IT technical
-   team who are familiar with UNIX/Linux systems. Knowledge of
-   UNIX/Linux systems are required to fully understand this document."""
-
 # Files and directories
-dir_tmp = "/home/tools/tmp/system/"
+dir_tmp = "/home/tools/tmp/"
 toc = dir_tmp + "ops_format-ietf.toc"
 tmp = dir_tmp + "ops_format-ietf.tmp"
+dir_ini = "/home/tools/ini/"
+var_nir2txt = dir_ini + "var_nir2txt.py"
 
 # Date
 date = datetime.datetime.now().strftime("%B %Y")
@@ -83,6 +61,10 @@ date = datetime.datetime.now().strftime("%B %Y")
 # Additional variables
 page_nb = 2
 sub_index = 1
+
+# Import all variables from file
+sys.path.append(dir_ini)
+from var_nir2txt import *
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -155,7 +137,7 @@ file_out.write('{0:<36}{1:>36}'.format(doctype, date) + "\n")
 file_out.write("\n" * 2 + '{:^72}'.format(args.title) + "\n")
 file_out.write("\n" * 2 + "Notice" + "\n")
 file_out.write(disclaimer + "\n")
-file_out.write("\n" * 30)
+file_out.write("\n" * 30)                                               # CORRECTION NEEDED IF DISCLAIMER IS SMALLER/BIGGER
 file_out.write('{0:<24}{1:^24}{2:>24}'.format(corp,
                doctype, "[Page 1]") + "\n")
 file_out.write('{0:<24}{1:^24}{2:>24}'.format(project,
