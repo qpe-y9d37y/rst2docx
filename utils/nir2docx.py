@@ -3,7 +3,7 @@
 ########################################################################
 # Python 3                                               Quentin Petit #
 #                                              <petit.quent@gmail.com> #
-#                                                        December 2019 #
+#                                                         January 2020 #
 #                                                                      #
 #                                                                      #
 #                                                                      #
@@ -47,8 +47,7 @@ dir_current = os.path.abspath(os.path.dirname(sys.argv[0]))
 dir_root = dir_current.rsplit('/', 1)[0]
 dir_ini = dir_root + "/ini/"
 dir_tmp = dir_root + "/tmp/"
-docx_template = dir_ini + "tpl_opensrc.docx"
-docx_output = dir_tmp + "output_new.docx"
+docx_template = dir_ini + "tpl_nir2docx.docx"
 
 # Import all variables from file
 sys.path.append(dir_ini)
@@ -120,6 +119,9 @@ if not os.path.isfile(src):
 if not os.path.isdir(dir_tmp):
     os.makedirs(dir_tmp)
 
+# Set output filename
+docx_output = dir_tmp + os.path.basename(src).replace('.nir', '.docx')
+
 # Open docx template
 document = Document(docx_template)
 
@@ -152,8 +154,10 @@ write_prgrph()
 # Insert authors details
 document.add_paragraph("Authors", 'Header_A')
 document.add_paragraph(fname + " " + lname + " (editor)", 'No_Spacing')
-document.add_paragraph(corp, 'No_Spacing')
-document.add_paragraph(corpad, 'No_Spacing')
+if corp != "":
+    document.add_paragraph(corp, 'No_Spacing')
+if corpad != "":
+    document.add_paragraph(corpad, 'No_Spacing')
 document.add_paragraph("EMail: " + email, 'No_Spacing')
 
 # Save document

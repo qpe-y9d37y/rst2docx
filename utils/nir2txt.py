@@ -30,6 +30,8 @@
 # +----------+------------+------+-----------------------------------+ #
 # | 20200127 | Quentin P. | 1.2  | Author and doc var are now in ini | #
 # +----------+------------+------+-----------------------------------+ #
+# | 20200131 | Quentin P. | 1.3  | Nb of empty lines /w disclaimer   | #
+# +----------+------------+------+-----------------------------------+ #
 #                                                                      #
 ########################################################################
 
@@ -49,11 +51,12 @@ import sys
 #                                                                      #
 
 # Files and directories
-dir_tmp = "/home/tools/tmp/"
+dir_current = os.path.abspath(os.path.dirname(sys.argv[0]))
+dir_root = dir_current.rsplit('/', 1)[0]
+dir_ini = dir_root + "/ini/"
+dir_tmp = dir_root + "/tmp/"
 toc = dir_tmp + "ops_format-ietf.toc"
 tmp = dir_tmp + "ops_format-ietf.tmp"
-dir_ini = "/home/tools/ini/"
-var_nir2txt = dir_ini + "var_nir2txt.py"
 
 # Date
 date = datetime.datetime.now().strftime("%B %Y")
@@ -61,10 +64,11 @@ date = datetime.datetime.now().strftime("%B %Y")
 # Additional variables
 page_nb = 2
 sub_index = 1
+found = ""
 
 # Import all variables from file
 sys.path.append(dir_ini)
-from var_nir2txt import *
+from var_nirutils import *
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -82,8 +86,6 @@ from var_nir2txt import *
 parser = argparse.ArgumentParser(description='Format documentation')
 parser.add_argument('-s', action="store", 
                     dest="src", help="source file")
-parser.add_argument('-o', action="store",
-                    dest="out", help="output file")
 parser.add_argument('-T', action="store", dest="title", help="title")
 parser.add_argument('-t', action="store",
                     dest="title_short", help="short title")
@@ -95,7 +97,7 @@ args = parser.parse_args()
 
 # Check if all arguments are set.
 if len(sys.argv) > 1 and \
-   None in (args.src, args.out, args.title, args.title_short,
+   None in (args.src, args.title, args.title_short,
             args.project, args.cust, args.team):
     print("error: one or more argument is missing")
     parser.print_help()
@@ -103,7 +105,6 @@ if len(sys.argv) > 1 and \
 # If no argument is set, interactive session.
 elif len(sys.argv) <= 1:
     src = input("Source document: ")
-    out = input("Output: ")
     title = input("Document title: ")
     title_short = input("Short title: ")
     project = input("Project: ")
@@ -111,7 +112,6 @@ elif len(sys.argv) <= 1:
     team = input("Team: ")
 else:
     src = args.src
-    out = args.out
     title = args.title
     title_short = args.title_short
     project = args.project
@@ -122,6 +122,9 @@ else:
 if not os.path.isfile(src):
     print("error: file " + src + " doesn't exist, bye")
     sys.exit(1)
+
+# Set output filename
+out = dir_tmp + os.path.basename(src).replace('.nir', '.txt')
 
 # Create directories if not existing.
 if not os.path.isdir(dir_tmp):
@@ -137,7 +140,7 @@ file_out.write('{0:<36}{1:>36}'.format(doctype, date) + "\n")
 file_out.write("\n" * 2 + '{:^72}'.format(args.title) + "\n")
 file_out.write("\n" * 2 + "Notice" + "\n")
 file_out.write(disclaimer + "\n")
-file_out.write("\n" * 30)                                               # CORRECTION NEEDED IF DISCLAIMER IS SMALLER/BIGGER
+file_out.write("\n" * (43 - disclaimer.count('\n')))
 file_out.write('{0:<24}{1:^24}{2:>24}'.format(corp,
                doctype, "[Page 1]") + "\n")
 file_out.write('{0:<24}{1:^24}{2:>24}'.format(project,
@@ -152,7 +155,7 @@ with open(src, "r") as src_file:
         if line.startswith("."):
             if line.startswith(".."):
                 file_out.write(line.replace('..  ',
-                     '      ' + str(index - 1) 
+                     '      ' + str(index - 1)
                      + '.' + str(sub_index) + '. '))
                 sub_index += 1
             else:
@@ -236,7 +239,7 @@ else:
 # Insert authors' addresses.
 file_out.write("Authors' Addresses \n")
 file_out.write("\n")
-file_out.write("   " + fname + " " + lname + "(editor)\n")
+file_out.write("   " + fname + " " + lname + " (editor)\n")
 file_out.write("   " + corp + "\n")
 file_out.write("   " + corpad + "\n")
 file_out.write("\n")
