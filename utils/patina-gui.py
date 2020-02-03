@@ -88,17 +88,18 @@ def add_enumerate():
 
 # Function to add note.
 def add_note():
-    line = str(text_area.index(tkinter.INSERT)).split(".")[0] + ".0"
-    text_area.insert(line, "   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    text_area.insert(line, "   + Note:                                                          +")
-    text_area.insert(line, "   +   ")
+    line_nb = int(str(text_area.index(tkinter.INSERT)).split(".")[0])
+    line = str(line_nb) + ".0"
+    text_area.insert(line, " " * 3 + "+" * 66 + "\n"
+                           + " " * 3 + "+ Note:" + " " * 58 + "+\n"
+                           + "   +   " )
 
 # Function to add important note.
 def add_important():
     line = str(text_area.index(tkinter.INSERT)).split(".")[0] + ".0"
-    text_area.insert(line, "   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    text_area.insert(line, "   !! Note:                                                        !!")
-    text_area.insert(line, "   !!   ")
+    text_area.insert(line, " " * 3 + "!" * 66 + "\n"
+                           + " " * 3 + "!! Note:" + " " * 56 + "!!\n"
+                           + "   !!   ")
 
 # Function to add a sub-bullet.
 def add_subbullet():
