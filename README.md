@@ -18,6 +18,7 @@ Here is the file tree of this repository:
 |-- utils/
 |   |-- nir2docx.py
 |   |-- nir2txt.py
+|   |-- nir_profile.sh
 |   `-- patina.sh
 |-- vim/
 |   |-- ftdetect-nir.vim
@@ -37,6 +38,7 @@ Here is the file tree of this repository:
 * The `utils` directory contains some scripts used with NIR.
   - `nir2docx.py` is used to convert NIR files to MS Word DOCX files.
   - `nir2txt.py` is used to convert NIR files to structured TXT documentation files.
+  - `nir_profile.sh` is used to switch to a profile.
   - `patina.sh` is used to help you include elements into a NIR file.
 * The `vim` directory contains configuration files to write NIR files on vim.
 * `install.sh` is a script used to install the dependencies and copy the files where they should be!
