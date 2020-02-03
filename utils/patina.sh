@@ -13,7 +13,7 @@
 #                                                                      #
 #                                                                      #
 #                                                                      #
-# Current version: 0.1                                                 #
+# Current version: 0.2                                                 #
 # Status: Development in progress                                      #
 #                                                                      #
 # This script purpose it to                                            #
@@ -26,6 +26,8 @@
 # +----------+------------+------+-----------------------------------+ #
 # | 20200123 | Quentin P. | 0.1  | Starting development              | #
 # +----------+------------+------+-----------------------------------+ #
+# | 20200203 | Quentin P. | 0.2  | Small edit of usage function      | #
+# +----------+------------+------+-----------------------------------+ #
 #                                                                      #
 ########################################################################
 
@@ -35,7 +37,7 @@
 
 # Function to print the usage.
 function usage {
-  echo "usage: patina.sh [-h] [-i OPTION]
+  echo "usage: $(basename $0) [-h] [-i OPTION]
 
 ...
 
