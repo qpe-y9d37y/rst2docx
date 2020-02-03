@@ -30,6 +30,15 @@
 
 .  Word Style Template
 
+   To create a template, open a new blank document in MS Word and in the
+   "Home" tab, under "Styles", select "Create a Style". The styles that
+   you will create are the ones that you will use when inserting text,
+   in the following example "Title".
+
+        document.add_paragraph('The Lord of the Rings', 'Title')
+
+   You can also add pictures on your cover page.
+
 
 
 .  Usage

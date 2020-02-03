@@ -1,9 +1,9 @@
 
 
 
-                                                                Q. Petit
-UNIX/Linux Team
-Technical Documentation                                     January 2020
+N/A                                                             Q. Petit
+UNIX/Linux
+Technical Documentation                                    February 2020
 
 
                          Python - Docx Edition
@@ -55,7 +55,7 @@ usefulness or timeliness.
 
 
                         Technical Documentation                 [Page 1]
-Python language          Python - Docx Edition              January 2020
+Python                   Python - Docx Edition             February 2020
 
 
 Table of Contents
@@ -63,13 +63,13 @@ Table of Contents
    1. Introduction ....................................................2
    2. Installation ....................................................2
    3. Word Style Template .............................................2
-   4. Usage ...........................................................2
+   4. Usage ...........................................................3
       4.1. Document Creation ..........................................3
       4.2. Text in a Document .........................................3
       4.3. Styles and Layout ..........................................3
       4.4. Table in a Document ........................................4
       4.5. Picture in a Document ......................................5
-      4.6. Save the Document ..........................................5
+      4.6. Save the Document ..........................................6
    5. Sources .........................................................6
 
 
@@ -106,15 +106,24 @@ Table of Contents
 
 3.  Word Style Template
 
-
-
-4.  Usage
+   To create a template, open a new blank document in MS Word and in the
+   "Home" tab, under "Styles", select "Create a Style". The styles that
+   you will create are the ones that you will use when inserting text,
 
 
                         Technical Documentation                 [Page 2]
-Python language          Python - Docx Edition              January 2020
+Python                   Python - Docx Edition             February 2020
 
 
+   in the following example "Title".
+
+        document.add_paragraph('The Lord of the Rings', 'Title')
+
+   You can also add pictures on your cover page.
+
+
+
+4.  Usage
 
 4.1.  Document Creation
 
@@ -157,6 +166,12 @@ Python language          Python - Docx Edition              January 2020
         from its pages a reader may discover much of their character and
         a little of their history."""
 
+
+
+                        Technical Documentation                 [Page 3]
+Python                   Python - Docx Edition             February 2020
+
+
         document.add_paragraph(content, 'Normal')
 
    If you want to create a new style, first import the necessary
@@ -166,12 +181,6 @@ Python language          Python - Docx Edition              January 2020
         from docx.enum.style import WD_STYLE_TYPE
 
    Now you can create the new style, start by declaring it, giving it a
-
-
-                        Technical Documentation                 [Page 3]
-Python language          Python - Docx Edition              January 2020
-
-
    name:
 
         document.styles.add_style('Titulo', WD_STYLE_TYPE.PARAGRAPH)
@@ -214,6 +223,12 @@ Python language          Python - Docx Edition              January 2020
         | Firstname | Lastname |
         +-----------+----------+
         | Bilbo     | Baggins  |
+
+
+                        Technical Documentation                 [Page 4]
+Python                   Python - Docx Edition             February 2020
+
+
         +-----------+----------+
 
    I would do:
@@ -223,12 +238,6 @@ Python language          Python - Docx Edition              January 2020
         table.cell(0, 1).text = 'Lastname'
         table.cell(1, 0).text = "Bilbo"
         table.cell(1, 1).text = "Baggins"
-
-
-                        Technical Documentation                 [Page 4]
-Python language          Python - Docx Edition              January 2020
-
-
 
    To set the background color to a specific cell, import the necessary
    libraries:
@@ -272,6 +281,12 @@ Python language          Python - Docx Edition              January 2020
 
    Then you can declare the width like:
 
+
+                        Technical Documentation                 [Page 5]
+Python                   Python - Docx Edition             February 2020
+
+
+
         graph_width = Inches(6.0)
 
 
@@ -279,12 +294,6 @@ Python language          Python - Docx Edition              January 2020
 4.6.  Save the Document
 
    To save the document, do:
-
-
-
-                        Technical Documentation                 [Page 5]
-Python language          Python - Docx Edition              January 2020
-
 
         document.save(docx_output)
 
@@ -297,6 +306,7 @@ Python language          Python - Docx Edition              January 2020
 
 
 
+
 Authors' Addresses
 
    Quentin Petit (editor)
@@ -304,15 +314,6 @@ Authors' Addresses
    Luxembourg
 
    EMail: <petit.quent@gmail.com>
-
-
-
-
-
-
-
-
-
 
 
 
