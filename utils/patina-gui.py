@@ -4,21 +4,22 @@
 # Python3                                                Quentin Petit #
 # Text Editor                                             October 2019 #
 #                                                                      #
-#                               patina.py                              #
+#                            patina-gui.py                             #
 #                                                                      #
-# Current version: 0.3.0                                               #
+# Current version: 0.3.1                                               #
 # Status: Development in progress                                      #
 #                                                                      #
-# For more details about Patina, have a look at the README.            #
+# ...                                                                  #
 #                                                                      #
 # Version history:                                                     #
 # +----------+---------+---------------------------------------------+ #
-# ¦   Date   ¦ Version ¦ Comment                                     ¦ #
+# |   Date   | Version | Comment                                     | #
 # +----------+---------+---------------------------------------------+ #
-# ¦ 20191011 ¦ 0.1.0   ¦ First development                           ¦ #
-# ¦ 20191012 ¦ 0.1.1   ¦ Bug: compatibility Lin/Win                  ¦ #
-# ¦ 20191013 ¦ 0.2.0   ¦ New: icon and "New File" function           ¦ #
-# ¦ 20191014 ¦ 0.3.0   ¦ UPG: gui sizing and new/open/save functions ¦ #
+# | 20191011 | 0.1.0   | First development                           | #
+# | 20191012 | 0.1.1   | Bug: compatibility Lin/Win                  | #
+# | 20191013 | 0.2.0   | New: icon and "New File" function           | #
+# | 20191014 | 0.3.0   | UPG: gui sizing and new/open/save functions | #
+# | 20200203 | 0.3.1   | New: important notes                        | #
 # +----------+---------+---------------------------------------------+ #
 #                                                                      #
 ########################################################################
@@ -88,7 +89,16 @@ def add_enumerate():
 # Function to add note.
 def add_note():
     line = str(text_area.index(tkinter.INSERT)).split(".")[0] + ".0"
-    text_area.insert(line, "      Note: ")
+    text_area.insert(line, "   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    text_area.insert(line, "   + Note:                                                          +")
+    text_area.insert(line, "   +   ")
+
+# Function to add important note.
+def add_important():
+    line = str(text_area.index(tkinter.INSERT)).split(".")[0] + ".0"
+    text_area.insert(line, "   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    text_area.insert(line, "   !! Note:                                                        !!")
+    text_area.insert(line, "   !!   ")
 
 # Function to add a sub-bullet.
 def add_subbullet():
@@ -235,6 +245,7 @@ def released_key(event):
     # Adding new line when we reach the end of the widget.
     column = int(str(text_area.index(tkinter.INSERT)).split(".")[1])
     if column > 72:
+        
         # Finding last space to wrap words correctly.
         row = str(text_area.index(tkinter.INSERT)).split(".")[0]
         line_start = float(row + ".0")
@@ -351,6 +362,7 @@ insert_menu.add_command(label="Sub-bullets", command=add_subbullet)
 insert_menu.add_command(label="Numbering", command=add_enumerate)
 insert_menu.add_separator()
 insert_menu.add_command(label="Note", command=add_note)
+insert_menu.add_command(label="Important note", command=add_important)
 #insert_menu.add_separator()
 #insert_menu.add_command(label="Source", command=add_src)  # USE Toplevel()
 menu_bar.add_cascade(label="Insert", menu=insert_menu)
