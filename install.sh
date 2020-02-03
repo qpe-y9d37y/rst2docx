@@ -38,7 +38,7 @@
 
 # Function to print the usage.
 function usage {
-  echo "usage: install.sh [-h]
+  echo "usage: $(basename $0) [-h]
 
 install the dependencies and create the file tree for NIR
 
