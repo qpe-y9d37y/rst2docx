@@ -17,7 +17,7 @@
 # Status: Development in progress                                      #
 #                                                                      #
 # This script purpose it to create the file tree to use the different  #
-# tools for NIR.                                                       #
+# tools for NIR and install the required dependencies.                 #
 #                                                                      #
 #                                                                      #
 #                                                                      #
@@ -40,7 +40,7 @@
 function usage {
   echo "usage: install.sh [-h]
 
-...
+install the dependencies and create the file tree for NIR
 
 arguments:
   -h, --help      show this help message and exit
