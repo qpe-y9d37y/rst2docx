@@ -39,3 +39,4 @@ Here is the file tree of this repository:
   - `nir2txt.py` is used to convert NIR files to structured TXT documentation files.
   - `patina.sh` is used to help you include elements into a NIR file.
 * The `vim` directory contains configuration files to write NIR files on vim.
+* `install.sh` is a script used to install the dependencies and copy the files where they should be!
