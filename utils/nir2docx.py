@@ -2,28 +2,25 @@
 
 ########################################################################
 # Python 3                                               Quentin Petit #
-#                                              <petit.quent@gmail.com> #
-#                                                         January 2020 #
-#                                                                      #
-#                                                                      #
+# January 2020                                 <petit.quent@gmail.com> #
 #                                                                      #
 #                             nir2docx.py                              #
 #                                                                      #
-#                                                                      #
-#                                                                      #
-# Current version: 0.1                                                 #
+# Current version: 0.1.0                                               #
 # Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to format NIR notes to MS docx file.          #
 #                                                                      #
-#                                                                      #
-#                                                                      #
 # Version history:                                                     #
-# +----------+------------+------+-----------------------------------+ #
-# |   Date   |   Author   | Vers | Comment                           | #
-# +----------+------------+------+-----------------------------------+ #
-# | 20200130 | Quentin P. | 0.1  | Starting development              | #
-# +----------+------------+------+-----------------------------------+ #
+# +----------+---------+---------------------------------------------+ #
+# |   Date   | Version | Comment                                     | #
+# +----------+---------+---------------------------------------------+ #
+# | 20200130 | 0.1.0   | First development                           | #
+# +----------+---------+---------------------------------------------+ #
+#                                                                      #
+# The prerequisites to use this script are:                            #
+#                                                                      #
+# o  The Python package python-docx should be installed                #
 #                                                                      #
 ########################################################################
 
