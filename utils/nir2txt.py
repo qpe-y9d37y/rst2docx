@@ -6,7 +6,7 @@
 #                                                                      #
 #                              nir2txt.py                              #
 #                                                                      #
-# Current version: 1.2                                                 #
+# Current version: 1.0.3                                               #
 # Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to format NIR notes to documentation.         #
