@@ -7,7 +7,7 @@
 #                            patina-gui.py                             #
 #                                                                      #
 # Current version: 0.3.1                                               #
-# Status: Development in progress                                      #
+# Status: Work in progress                                             #
 #                                                                      #
 # ...                                                                  #
 #                                                                      #

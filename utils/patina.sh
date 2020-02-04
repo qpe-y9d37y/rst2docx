@@ -10,7 +10,7 @@
 #                               patina.sh                              #
 #                                                                      #
 # Current version: 0.1.1                                               #
-# Status: Development in progress                                      #
+# Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to                                            #
 #                                                                      #

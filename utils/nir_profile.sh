@@ -10,7 +10,7 @@
 #                            nir_profile.sh                            #
 #                                                                      #
 # Current version: 0.1.0                                               #
-# Status: Development in progress                                      #
+# Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to                                            #
 #                                                                      #
