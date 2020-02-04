@@ -27,7 +27,7 @@
 #                               VARIABLES                              #
 #                                                                      #
 
-# Files and directories
+# Files and directories.
 DIR_CURRENT=$(dirname $(realpath $0))
 DIR_ROOT=$(dirname ${DIR_CURRENT})
 DIR_INI="${DIR_ROOT}/ini/"
@@ -61,16 +61,16 @@ if [[ -z ${1} ]] || [[ ${1} == "-h" ]] || [[ ${1} == "--help" ]]; then
   usage && exit 0
 fi
 
-# Set profile variable
+# Set profile variable.
 PROFILE=$1
 
-# Check if profile exists
+# Check if profile exists.
 if [[ ! -e ${DIR_INI}${FILE_VAR}_${PROFILE} ]] || [[ ! -e ${DIR_INI}${FILE_TPLT}_${PROFILE} ]]; then
   echo "error: ${FILE_VAR}_${PROFILE} or ${FILE_TPLT}_${PROFILE} cannot be found, bye"
   usage && exit 1
 fi
 
-# Ask if FILE_VAR/FILE_TPLT should be saved
+# Ask if FILE_VAR/FILE_TPLT should be saved.
 if [[ -e ${DIR_INI}${FILE_VAR} ]]; then
   ANSWER=""
   echo "Do you want to save current ${FILE_VAR}? [y/N] "
@@ -92,7 +92,7 @@ if [[ -e ${DIR_INI}${FILE_TPLT} ]]; then
   rm ${DIR_INI}${FILE_TPLT}
 fi
 
-# Set ${PROFILE} as default
+# Set ${PROFILE} as default.
 cp -p ${DIR_INI}${FILE_VAR}_${PROFILE} ${DIR_INI}${FILE_VAR}
 cp -p ${DIR_INI}${FILE_TPLT}_${PROFILE} ${DIR_INI}${FILE_TPLT}
 

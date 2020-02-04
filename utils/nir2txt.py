@@ -39,7 +39,7 @@ import sys
 #                               VARIABLES                              #
 #                                                                      #
 
-# Files and directories
+# Files and directories.
 dir_current = os.path.abspath(os.path.dirname(sys.argv[0]))
 dir_root = dir_current.rsplit('/', 1)[0]
 dir_ini = dir_root + "/ini/"
@@ -47,15 +47,15 @@ dir_tmp = dir_root + "/tmp/"
 toc = dir_tmp + "ops_format-ietf.toc"
 tmp = dir_tmp + "ops_format-ietf.tmp"
 
-# Date
+# Date.
 date = datetime.datetime.now().strftime("%B %Y")
 
-# Additional variables
+# Additional variables.
 page_nb = 2
 sub_index = 1
 found = ""
 
-# Import all variables from file
+# Import all variables from file.
 sys.path.append(dir_ini)
 from var_nirutils import *
 
@@ -112,7 +112,7 @@ if not os.path.isfile(src):
     print("error: file " + src + " doesn't exist, bye")
     sys.exit(1)
 
-# Set output filename
+# Set output filename.
 out = dir_tmp + os.path.basename(src).replace('.nir', '.txt')
 
 # Create directories if not existing.

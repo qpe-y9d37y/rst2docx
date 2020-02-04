@@ -39,14 +39,14 @@ from docx import Document
 #                               VARIABLES                              #
 #                                                                      #
 
-# Files and directories
+# Files and directories.
 dir_current = os.path.abspath(os.path.dirname(sys.argv[0]))
 dir_root = dir_current.rsplit('/', 1)[0]
 dir_ini = dir_root + "/ini/"
 dir_tmp = dir_root + "/tmp/"
 docx_template = dir_ini + "tpl_nir2docx.docx"
 
-# Import all variables from file
+# Import all variables from file.
 sys.path.append(dir_ini)
 from var_nirutils import *
 
@@ -55,6 +55,7 @@ from var_nirutils import *
 #                               FUNCTIONS                              #
 #                                                                      #
 
+# Function to write a paragraph from NIR.
 def write_prgrph():
     file_tmp.close()
     with open (dir_tmp + "tmp_paragraph", "r") as tmp_prgrph:
@@ -116,19 +117,19 @@ if not os.path.isfile(src):
 if not os.path.isdir(dir_tmp):
     os.makedirs(dir_tmp)
 
-# Set output filename
+# Set output filename.
 docx_output = dir_tmp + os.path.basename(src).replace('.nir', '.docx')
 
-# Open docx template
+# Open docx template.
 document = Document(docx_template)
 
-# Write cover
+# Write cover.
 document.add_paragraph(title, 'Cover_Title')
 document.add_paragraph(cust, 'Cover_Subtitle')
-# Insert page break
+# Insert page break.
 document.add_page_break()
 
-# Insert disclaimer
+# Insert disclaimer.
 document.add_paragraph("Disclaimer:", 'Cover_Subtitle')
 disclaimer = re.sub('\\n(?!\\n)' , ' ',
                     disclaimer.rstrip()).replace("\n", "\n\n")
@@ -137,7 +138,7 @@ disclaimer = re.sub('\\n(?!\\n)' , ' ',
 ########################################################################
 document.add_paragraph(disclaimer, 'Normal')
 
-# Insert content
+# Insert content.
 with open(src, "r") as src_file:
     file_tmp = open(dir_tmp + "tmp_paragraph", 'w')
     for line in src_file:
@@ -148,7 +149,7 @@ with open(src, "r") as src_file:
             file_tmp.write(line)
 write_prgrph()
 
-# Insert authors details
+# Insert authors details.
 document.add_paragraph("Authors", 'Header_A')
 document.add_paragraph(fname + " " + lname + " (editor)", 'No_Spacing')
 if corp != "":
@@ -157,7 +158,7 @@ if corpad != "":
     document.add_paragraph(corpad, 'No_Spacing')
 document.add_paragraph("EMail: " + email, 'No_Spacing')
 
-# Save document
+# Save document.
 document.save(docx_output)
 
 #                                                                      #
