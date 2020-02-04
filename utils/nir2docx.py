@@ -16,6 +16,7 @@
 # |   Date   | Version | Comment                                     | #
 # +----------+---------+---------------------------------------------+ #
 # | 20200130 | 0.1.0   | First development                           | #
+# | 20200204 | 0.1.1   | Improvement write_prgrph function           | #
 # +----------+---------+---------------------------------------------+ #
 #                                                                      #
 # The prerequisites to use this script are:                            #
@@ -61,16 +62,16 @@ def write_prgrph():
     with open (dir_tmp + "tmp_paragraph", "r") as tmp_prgrph:
         prgrph = tmp_prgrph.read()
         if prgrph.startswith("."):
-            if prgrph.startswith(".."):
-                prgrph = prgrph.replace('..  ', '').rstrip()
-                document.add_paragraph(prgrph, 'Header_2')
-            else:
-                prgrph = prgrph.replace('.  ', '').rstrip()
-                document.add_paragraph(prgrph, 'Header_1')
+            header_lvl = len(prgrph.split()[0])
+            prgrph = prgrph.replace('.' * header_lvl + ' ', '').rstrip()
+            document.add_paragraph(prgrph, 'Header_' + str(header_lvl))
         elif prgrph.startswith("   "):
             if prgrph.startswith("        "):
                 prgrph = prgrph.replace('        ', '').rstrip()
                 document.add_paragraph(prgrph, 'Code')
+            elif prgrph.startswith("      -  "):
+                prgrph = prgrph.replace('      -  ', '').replace('         ', '').replace("\n", " ").rstrip()
+                document.add_paragraph(prgrph, 'Bullet_2')
             elif prgrph.startswith("   o  "):
                 prgrph = prgrph.replace('   o  ', '').replace('      ', '').replace("\n", " ").rstrip()
                 document.add_paragraph(prgrph, 'Bullet_1')
