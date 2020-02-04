@@ -6,7 +6,7 @@
 #                                                                      #
 #                             nir2docx.py                              #
 #                                                                      #
-# Current version: 0.1.0                                               #
+# Current version: 0.1.1                                               #
 # Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to format NIR notes to MS docx file.          #
