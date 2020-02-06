@@ -8,16 +8,16 @@
 Introduction
 ============
 
-python-docx is a Python library for creating and updating Microsoft Word
+``python-docx`` is a Python library for creating and updating Microsoft Word
 (.docx) files.
 
 Installation
 ============
 
 To be able to use python-docx, you need to install the module. First,
-update pip:
+update pip::
 
-``pip install --upgrade pip setuptools``
+  pip install --upgrade pip setuptools
 
 If you're using a proxy, then add the option --proxy, for example:
 
