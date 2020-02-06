@@ -36,16 +36,14 @@ doesn't exist or not a regular file``
 Word Style Template
 ===================
 
-   To create a template, open a new blank document in MS Word and in the
-   "Home" tab, under "Styles", select "Create a Style". The styles that
-   you will create are the ones that you will use when inserting text,
-   in the following example "Title".
+To create a template, open a new blank document in MS Word and in the
+"Home" tab, under "Styles", select "Create a Style". The styles that you
+will create are the ones that you will use when inserting text, in the
+following example "Title".
 
 >>> document.add_paragraph('The Lord of the Rings', 'Title')
 
-   You can also add pictures on your cover page.
-
-
+You can also add pictures on your cover page.
 
 Usage
 =====
@@ -53,51 +51,44 @@ Usage
 Document Creation
 -----------------
 
-   To create a document, first import the python-docx module:
+To create a document, first import the python-docx module:
 
-        from docx import Document
+>>> from docx import Document
 
-   To open an existing presentation, do:
+To open an existing presentation, do:
 
-        document = Document(docx_template)
+>>> document = Document(docx_template)
 
-   Or a new one:
+Or a new one:
 
-        document = Document()
-
-
+>>> document = Document()
 
 Text in a Document
 ------------------
 
-   To insert a text in a document, do:
+To insert a text in a document, do:
 
-        document.add_paragraph('Hello World')
-
-
+>>>  document.add_paragraph('Hello World')
 
 Styles and Layout
 -----------------
 
-   To apply a specific style for a text, do:
+To apply a specific style for a text, do:
 
-        document.add_paragraph(text, style)
+>>> document.add_paragraph(text, style)
 
-   For example:
+For example:
 
-        document.add_paragraph('The Lord of the Rings', 'Title')
-        document.add_paragraph('The Fellowship of the Ring', 'Subtitle')
-        document.add_paragraph('Prologue', 'Heading 1')
-        document.add_paragraph('Concerning Hobbits', 'Heading 2')
+>>> document.add_paragraph('The Lord of the Rings', 'Title')
+>>> document.add_paragraph('The Fellowship of the Ring', 'Subtitle')
+>>> document.add_paragraph('Prologue', 'Heading 1')
+>>> document.add_paragraph('Concerning Hobbits', 'Heading 2')
+>>> content = """This book is largely concerned with Hobbits, and
+... from its pages a reader may discover much of their character and
+... a little of their history."""
+>>> document.add_paragraph(content, 'Normal')
 
-        content = """This book is largely concerned with Hobbits, and
-        from its pages a reader may discover much of their character and
-        a little of their history."""
-
-        document.add_paragraph(content, 'Normal')
-
-   If you want to create a new style, first import the necessary
-   libraries:
+If you want to create a new style, first import the necessary libraries:
 
         from docx.shared import Pt, RGBColor
         from docx.enum.style import WD_STYLE_TYPE
