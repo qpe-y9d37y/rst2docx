@@ -19,19 +19,19 @@ update pip::
 
   pip install --upgrade pip setuptools
 
-If you're using a proxy, then add the option --proxy, for example:
+If you're using a proxy, then add the option --proxy, for example::
 
-``pip --proxy http://${PROXY_IP}:${PORT} install --upgrade pip``
+  pip --proxy http://${PROXY_IP}:${PORT} install --upgrade pip
 
-Now you can install the module:
+Now you can install the module::
 
-``pip install python-docx``
+  pip install python-docx
 
 If you face an error like the one hereunder, make sure that you updated
-the setuptools module.
+the setuptools module::
 
-``error: can't copy 'docx/templates/default-docx-template':
-doesn't exist or not a regular file``
+  error: can't copy 'docx/templates/default-docx-template':
+  doesn't exist or not a regular file``
 
 Word Style Template
 ===================
