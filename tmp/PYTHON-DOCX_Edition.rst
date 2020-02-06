@@ -198,8 +198,6 @@ To save the document, do:
 Sources
 =======
 
-.. rubric:: References
-
 .. [CAN19] Canny, S. (2019). python-docx. [online]
    Python-docx.readthedocs.io. Available at:
    https://python-docx.readthedocs.io/en/latest/ [Accessed 6 Feb. 2020].
