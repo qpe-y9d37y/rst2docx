@@ -195,6 +195,9 @@ To save the document, do:
 
 >>> document.save(docx_output)
 
+.. DANGER::
+   Beware killer rabbits!
+
 Sources
 =======
 
