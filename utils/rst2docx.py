@@ -53,6 +53,7 @@ file_tmpprgrphold = dir_tmp + "tmp_paragraph_previous"
 #
 nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
 header_symbol = []
+separator = " "
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -73,7 +74,7 @@ def write_prgrph():
         with open(file_tmpprgrphold, "r") as tmp_prgrphold:
             prgrph_old = tmp_prgrphold.read()
             if prgrph != prgrph_old:
-                # Check if prgrph is a header.
+                # Headers.
                 lines = prgrph.split('\n')
                 lines.remove('')
                 if len(lines) == 2 and re.match('^[=\-`:\'"~^_*+#<>]+$', lines[1]):
@@ -81,6 +82,13 @@ def write_prgrph():
                         header_symbol.append(lines[1][0])
                     header_lvl = header_symbol.index(lines[1][0]) + 1
                     document.add_paragraph(lines[0], 'Header_' + str(header_lvl))
+                # Code.
+                elif prgrph_old.rstrip('\n')[-2:] == "::":
+                    for line in lines:
+                        document.add_paragraph(line.strip(), 'Code')
+                # Python code.
+                elif prgrph.startswith(">>> "):
+                    document.add_paragraph(prgrph.rstrip(), 'Code')
     shutil.copyfile(file_tmpprgrph, file_tmpprgrphold)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
