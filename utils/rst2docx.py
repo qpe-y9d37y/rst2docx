@@ -32,6 +32,7 @@
 import argparse
 import os
 import re
+import shutil
 import sys
 from docx import Document
 
@@ -46,6 +47,8 @@ dir_root = dir_current.rsplit('/', 1)[0]
 dir_ini = dir_root + "/ini/"
 dir_tmp = dir_root + "/tmp/"
 docx_template = dir_ini + "tpl_rst2docx.docx"
+file_tmpprgrph = dir_tmp + "tmp_paragraph"
+file_tmpprgrphold = dir_tmp + "tmp_paragraph_previous"
 
 #
 nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
@@ -60,6 +63,12 @@ def title_notfound():
     print("error: not title found in " + os.path.basename(src))
     print("see https://docutils.readthedocs.io/en/sphinx-docs/user/rst/quickstart.html#document-title-subtitle for more details")
     sys.exit(1)
+
+# Function to write a paragraph from RST.
+def write_prgrph():
+    file_tmp.close()
+    with open (file_tmpprgrph, "r") as tmp_prgrph:
+        print("WIP")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -100,15 +109,15 @@ document = Document(docx_template)
 
 # Retrieve and write title and subtitle.
 with open(src, "r") as src_file:
-    file_tmp = open(dir_tmp + "tmp_paragraph", 'w')
+    file_tmp = open(file_tmpprgrph, 'w')
     for line in src_file:
         if line == "\n":
             file_tmp.close()
             count = 0
-            with open(dir_tmp + "tmp_paragraph", 'r') as tmp_prgrph:
+            with open(file_tmpprgrph, 'r') as tmp_prgrph:
                 for line in tmp_prgrph:
                     count += 1
-            with open(dir_tmp + "tmp_paragraph", 'r') as tmp_prgrph:
+            with open(file_tmpprgrph, 'r') as tmp_prgrph:
                 if count == 3:
                     count = 0
                     for line in tmp_prgrph:
@@ -129,12 +138,28 @@ with open(src, "r") as src_file:
                             document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Subtitle')
                 else:
                     title_notfound()
+            shutil.copyfile(file_tmpprgrph, file_tmpprgrphold)
             break
         else:
             file_tmp.write(line)
 
 # Insert page break.
 document.add_page_break()
+
+# Insert disclaimer.
+
+# Insert writing conventions.
+
+# Insert content.
+with open(src, "r") as src_file:
+    file_tmp = open(file_tmpprgrph, 'w')
+    for line in src_file:
+        if line == "\n":
+            write_prgrph()
+            file_tmp = open(file_tmpprgrph, 'w')
+        else:
+            file_tmp.write(line)
+write_prgrph()
 
 # Save document.
 document.save(docx_output)
