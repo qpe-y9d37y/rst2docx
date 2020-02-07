@@ -52,6 +52,7 @@ file_tmpprgrphold = dir_tmp + "tmp_paragraph_previous"
 
 #
 nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
+header_symbol = []
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -67,8 +68,20 @@ def title_notfound():
 # Function to write a paragraph from RST.
 def write_prgrph():
     file_tmp.close()
-    with open (file_tmpprgrph, "r") as tmp_prgrph:
-        print("WIP")
+    with open(file_tmpprgrph, "r") as tmp_prgrph:
+        prgrph = tmp_prgrph.read()
+        with open(file_tmpprgrphold, "r") as tmp_prgrphold:
+            prgrph_old = tmp_prgrphold.read()
+            if prgrph != prgrph_old:
+                # Check if prgrph is a header.
+                lines = prgrph.split('\n')
+                lines.remove('')
+                if len(lines) == 2 and re.match('^[=\-`:\'"~^_*+#<>]+$', lines[1]):
+                    if lines[1][0] not in header_symbol:
+                        header_symbol.append(lines[1][0])
+                    header_lvl = header_symbol.index(lines[1][0]) + 1
+                    document.add_paragraph(lines[0], 'Header_' + str(header_lvl))
+    shutil.copyfile(file_tmpprgrph, file_tmpprgrphold)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -125,7 +138,9 @@ with open(src, "r") as src_file:
                         if (count % 2) != 0 and line[0] not in nonalphanum:
                             title_notfound()
                         else:
-                            document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Title')
+                            title = re.sub(r"^\s+", "", line.rstrip())
+                            subtitle = ""
+                            document.add_paragraph(title, 'Cover_Title')
                 elif count == 6:
                     count = 0
                     for line in tmp_prgrph:
@@ -133,9 +148,11 @@ with open(src, "r") as src_file:
                         if str(count) in ["1","3","4","6"] and line[0] not in nonalphanum:
                             title_notfound()
                         elif str(count) == "2":
-                            document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Title')
+                            title = re.sub(r"^\s+", "", line.rstrip())
+                            document.add_paragraph(title, 'Cover_Title')
                         elif count == 5:
-                            document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Subtitle')
+                            subtitle = re.sub(r"^\s+", "", line.rstrip())
+                            document.add_paragraph(subtitle, 'Cover_Subtitle')
                 else:
                     title_notfound()
             shutil.copyfile(file_tmpprgrph, file_tmpprgrphold)
@@ -160,6 +177,8 @@ with open(src, "r") as src_file:
         else:
             file_tmp.write(line)
 write_prgrph()
+
+# Insert authors details.
 
 # Save document.
 document.save(docx_output)
