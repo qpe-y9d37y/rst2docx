@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+
+########################################################################
+# Python 3                                               Quentin Petit #
+# February 2020                                <petit.quent@gmail.com> #
+#                                                                      #
+#                             rst2docx.py                              #
+#                                                                      #
+# Current version: 0.1.0                                               #
+# Status: Work in progress                                             #
+#                                                                      #
+# This script purpose it to format reStructuredText notes to MS docx   #
+# file.                                                                #
+#                                                                      #
+# Version history:                                                     #
+# +----------+---------+---------------------------------------------+ #
+# |   Date   | Version | Comment                                     | #
+# +----------+---------+---------------------------------------------+ #
+# | 20200207 | 0.1.0   | First development                           | #
+# +----------+---------+---------------------------------------------+ #
+#                                                                      #
+# The prerequisites to use this script are:                            #
+#                                                                      #
+# o  The Python package python-docx should be installed                #
+#                                                                      #
+########################################################################
+
+#                                                                      #
+#                              LIBRAIRIES                              #
+#                                                                      #
+
+import argparse
+import os
+import re
+import sys
+from docx import Document
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#                                                                      #
+#                               VARIABLES                              #
+#                                                                      #
+
+# Files and directories.
+dir_current = os.path.abspath(os.path.dirname(sys.argv[0]))
+dir_root = dir_current.rsplit('/', 1)[0]
+dir_ini = dir_root + "/ini/"
+dir_tmp = dir_root + "/tmp/"
+docx_template = dir_ini + "tpl_rst2docx.docx"
+
+#
+nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#                                                                      #
+#                               FUNCTIONS                              #
+#                                                                      #
+
+# Function to print error when title not found.
+def title_notfound():
+    print("error: not title found in " + os.path.basename(src))
+    print("see https://docutils.readthedocs.io/en/sphinx-docs/user/rst/quickstart.html#document-title-subtitle for more details")
+    sys.exit(1)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#                                                                      #
+#                               BEGINNING                              #
+#                                                                      #
+
+# Retrieve arguments.
+parser = argparse.ArgumentParser(description='Format documentation')
+parser.add_argument('-s', action="store", 
+                    dest="src", help="source file")
+args = parser.parse_args()
+
+# Check if all arguments are set.
+if len(sys.argv) > 1 and args.src == "":
+    print("error: one or more argument is missing")
+    parser.print_help()
+    sys.exit(1)
+# If no argument is set, interactive session.
+elif len(sys.argv) <= 1:
+    src = input("Source document: ")
+else:
+    src = args.src
+
+# Print error and quit if file doesn't exist.
+if not os.path.isfile(src):
+    print("error: file " + src + " doesn't exist, bye")
+    sys.exit(1)
+
+# Create directories if not existing.
+if not os.path.isdir(dir_tmp):
+    os.makedirs(dir_tmp)
+
+# Set output filename.
+docx_output = dir_tmp + os.path.basename(src).replace('.rst', '.docx')
+
+# Open docx template.
+document = Document(docx_template)
+
+# Retrieve and write title and subtitle.
+with open(src, "r") as src_file:
+    file_tmp = open(dir_tmp + "tmp_paragraph", 'w')
+    for line in src_file:
+        if line == "\n":
+            file_tmp.close()
+            count = 0
+            with open(dir_tmp + "tmp_paragraph", 'r') as tmp_prgrph:
+                for line in tmp_prgrph:
+                    count += 1
+            with open(dir_tmp + "tmp_paragraph", 'r') as tmp_prgrph:
+                if count == 3:
+                    count = 0
+                    for line in tmp_prgrph:
+                        count += 1
+                        if (count % 2) != 0 and line[0] not in nonalphanum:
+                            title_notfound()
+                        else:
+                            document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Title')
+                elif count == 6:
+                    count = 0
+                    for line in tmp_prgrph:
+                        count += 1
+                        if str(count) in ["1","3","4","6"] and line[0] not in nonalphanum:
+                            title_notfound()
+                        elif str(count) == "2":
+                            document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Title')
+                        elif count == 5:
+                            document.add_paragraph(re.sub(r"^\s+", "", line.rstrip()), 'Cover_Subtitle')
+                else:
+                    title_notfound()
+            break
+        else:
+            file_tmp.write(line)
+
+# Insert page break.
+document.add_page_break()
+
+# Save document.
+document.save(docx_output)
+
+#                                                                      #
+#                                  END                                 #
+#                                                                      #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
