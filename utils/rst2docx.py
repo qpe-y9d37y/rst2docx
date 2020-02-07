@@ -52,7 +52,9 @@ file_tmpprgrphold = dir_tmp + "tmp_paragraph_previous"
 
 #
 nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
+bullet_symbol = ["*","-","+"]
 header_symbol = []
+admonition_drctves = ["ATTENTION","CAUTION","DANGER","ERROR","HINT","IMPORTANT","NOTE","TIP","WARNING","ADMONITION"]
 separator = " "
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -82,13 +84,25 @@ def write_prgrph():
                         header_symbol.append(lines[1][0])
                     header_lvl = header_symbol.index(lines[1][0]) + 1
                     document.add_paragraph(lines[0], 'Header_' + str(header_lvl))
-                # Code.
+                # Code blocks.
                 elif prgrph_old.rstrip('\n')[-2:] == "::":
                     for line in lines:
                         document.add_paragraph(line.strip(), 'Code')
-                # Python code.
+                # Python code blocks.
                 elif prgrph.startswith(">>> "):
                     document.add_paragraph(prgrph.rstrip(), 'Code')
+                # Bulleted lists.
+                elif lines[0].strip()[0] in bullet_symbol and lines[0].strip()[1] == " ":
+                    lead_space = len(lines[0]) - len(lines[0].strip())
+                    bullet_lvl = int(lead_space / 2) + 1
+                    document.add_paragraph(separator.join(lines)[2:], 'Bullet_' + str(bullet_lvl))
+                # Enumerated lists.
+                # Admonitions.
+                elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
+                    lines[0] = lines[0].split()[1][:-2]
+                # Tables.
+                # Sources.
+                # Normal text.
     shutil.copyfile(file_tmpprgrph, file_tmpprgrphold)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
