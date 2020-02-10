@@ -35,6 +35,7 @@ import re
 import shutil
 import sys
 from docx import Document
+from docx.shared import Inches
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -166,10 +167,12 @@ def write_prgrph():
                         txt_style(p, split_prgrph)
                 # Tables.
                 # Sources.
-#                elif lines[0].startswith(".. ["):
-#                    table = document.add_table(1, 1)
-#                    table.cell(0, 0).text = prgrph.split()[1]
-#                    table.cell(0, 1).text = separator.join(prgrph.split()[2:])
+                elif lines[0].startswith(".. ["):
+                    table = document.add_table(1, 2)
+                    table.cell(0, 0).text = prgrph.split()[1]
+                    table.cell(0, 0).width = Inches(0.5)
+                    table.cell(0, 1).text = separator.join(prgrph.split()[2:])
+                    table.cell(0, 1).width = Inches(5.6)
                 # Normal text.
                 else:
                     p = document.add_paragraph("", 'Normal')
