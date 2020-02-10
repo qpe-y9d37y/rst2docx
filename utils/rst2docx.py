@@ -55,6 +55,10 @@ nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
 bullet_symbol = ["*","-","+"]
 header_symbol = []
 admonition_drctves = ["ATTENTION","CAUTION","DANGER","ERROR","HINT","IMPORTANT","NOTE","TIP","WARNING","ADMONITION"]
+attention_drctves = ["ATTENTION","CAUTION","WARNING"]
+danger_drctves = ["DANGER","ERROR"]
+hint_drctves = ["HINT","IMPORTANT","TIP"]
+note_drctves = ["NOTE","ADMONITION"]
 separator = " "
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -67,6 +71,51 @@ def title_notfound():
     print("error: not title found in " + os.path.basename(src))
     print("see https://docutils.readthedocs.io/en/sphinx-docs/user/rst/quickstart.html#document-title-subtitle for more details")
     sys.exit(1)
+
+# Function to apply text inside paragraph
+def txt_style(p, split_prgrph):
+    word_tag = "none"
+    for word in split_prgrph:
+        if word_tag == "none":
+            if word.startswith("*"):
+                if word.startswith("**"):
+                    if word.endswith("**"):
+                        p.add_run(word[:-2][2:] + " ").bold = True
+                    else:
+                        word_tag = "bold"
+                        p.add_run(word[2:] + " ").bold = True
+                else:
+                    if word.endswith("*"):
+                        p.add_run(word[:-1][1:] + " ").italic = True
+                    else:
+                        word_tag = "italics"
+                        p.add_run(word[1:] + " ").italic = True
+#            elif word.startswith("``"):
+#                if word.endswith("``"):
+#                    ...
+#                else:
+#                    word_tag = "code"
+#                    ...
+            else:
+                p.add_run(word + " ")
+        elif word_tag == "bold":
+            if word.endswith("**"):
+                word_tag = "none"
+                p.add_run(word[:-2] + " ").bold = True
+            else:
+                p.add_run(word + " ").bold = True
+        elif word_tag == "italics":
+            if word.endswith("*"):
+                word_tag = "none"
+                p.add_run(word[:-1] + " ").italic = True
+            else:
+                p.add_run(word + " ").italic = True
+#        elif word_tab == "code":
+#            if word.endswith("``"):
+#                word_tag = "none"
+#                ...
+#            else:
+#                ...
 
 # Function to write a paragraph from RST.
 def write_prgrph():
@@ -99,10 +148,33 @@ def write_prgrph():
                 # Enumerated lists.
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
-                    lines[0] = lines[0].split()[1][:-2]
+                    if lines[0].split()[1][:-2] in attention_drctves:
+                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'ATTENTION')
+                        split_prgrph = prgrph.split()[2:]
+                        txt_style(p, split_prgrph)
+                    elif lines[0].split()[1][:-2] in danger_drctves:
+                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'DANGER')
+                        split_prgrph = prgrph.split()[2:]
+                        txt_style(p, split_prgrph)
+                    elif lines[0].split()[1][:-2] in hint_drctves:
+                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'HINT')
+                        split_prgrph = prgrph.split()[2:]
+                        txt_style(p, split_prgrph)
+                    elif lines[0].split()[1][:-2] in note_drctves:
+                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'NOTE')
+                        split_prgrph = prgrph.split()[2:]
+                        txt_style(p, split_prgrph)
                 # Tables.
                 # Sources.
+#                elif lines[0].startswith(".. ["):
+#                    table = document.add_table(1, 1)
+#                    table.cell(0, 0).text = prgrph.split()[1]
+#                    table.cell(0, 1).text = separator.join(prgrph.split()[2:])
                 # Normal text.
+                else:
+                    p = document.add_paragraph("", 'Normal')
+                    split_prgrph = prgrph.split()
+                    txt_style(p, split_prgrph)
     shutil.copyfile(file_tmpprgrph, file_tmpprgrphold)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
