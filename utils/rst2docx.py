@@ -142,8 +142,7 @@ def write_prgrph():
                 # Code blocks.
                 elif prgrph_old.rstrip('\n')[-2:] == "::":
                     for line in lines:
-# TO DO: Remove the first 2 spaces but not further indentation.
-                        document.add_paragraph(line.strip(), 'Code')
+                        document.add_paragraph(line[2:], 'Code')
                 # Python code blocks.
                 elif prgrph.startswith(">>> "):
                     document.add_paragraph(prgrph.rstrip(), 'Code')
@@ -156,19 +155,23 @@ def write_prgrph():
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
                     if lines[0].split()[1][:-2] in attention_drctves:
-                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'ATTENTION')
+                        p = document.add_paragraph("", 'ATTENTION')
+                        p.add_run(lines[0].split()[1][:-2] + "\n").bold = True
                         split_prgrph = prgrph.split()[2:]
                         txt_style(p, split_prgrph)
                     elif lines[0].split()[1][:-2] in danger_drctves:
-                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'DANGER')
+                        p = document.add_paragraph("", 'DANGER')
+                        p.add_run(lines[0].split()[1][:-2] + "\n").bold = True
                         split_prgrph = prgrph.split()[2:]
                         txt_style(p, split_prgrph)
                     elif lines[0].split()[1][:-2] in hint_drctves:
-                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'HINT')
+                        p = document.add_paragraph("", 'HINT')
+                        p.add_run(lines[0].split()[1][:-2] + "\n").bold = True
                         split_prgrph = prgrph.split()[2:]
                         txt_style(p, split_prgrph)
                     elif lines[0].split()[1][:-2] in note_drctves:
-                        p = document.add_paragraph(lines[0].split()[1][:-2] + "\n", 'NOTE')
+                        p = document.add_paragraph("", 'NOTE')
+                        p.add_run(lines[0].split()[1][:-2] + "\n").bold = True
                         split_prgrph = prgrph.split()[2:]
                         txt_style(p, split_prgrph)
                 # Tables.
@@ -192,7 +195,7 @@ def write_prgrph():
                             row_vals = [x.strip(' ') for x in row_vals]
                             tab_vals.append(row_vals)
                     # Init table.
-                    table = document.add_table(tab_row_nb, tab_col_nb)
+                    table = document.add_table(tab_row_nb, tab_col_nb, 'Table_Light')
                     # Fill table.
                     for row_vals in tab_vals:
                         col_ix = 0
