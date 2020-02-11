@@ -130,7 +130,10 @@ def write_prgrph():
             if prgrph != prgrph_old:
                 # Headers.
                 lines = prgrph.split('\n')
-                lines.remove('')
+                try:
+                    lines.remove('')
+                except:
+                    pass
                 if len(lines) == 2 and re.match('^[=\-`:\'"~^_*+#<>]+$', lines[1]):
                     if lines[1][0] not in header_symbol:
                         header_symbol.append(lines[1][0])
@@ -139,6 +142,7 @@ def write_prgrph():
                 # Code blocks.
                 elif prgrph_old.rstrip('\n')[-2:] == "::":
                     for line in lines:
+# TO DO: Remove the first 2 spaces but not further indentation.
                         document.add_paragraph(line.strip(), 'Code')
                 # Python code blocks.
                 elif prgrph.startswith(">>> "):
@@ -168,6 +172,46 @@ def write_prgrph():
                         split_prgrph = prgrph.split()[2:]
                         txt_style(p, split_prgrph)
                 # Tables.
+                elif prgrph.startswith("+-") and re.match('^[=\-+]+$', lines[0]) and re.match('^[=\-+]+$', lines[-1]):
+                    # Reset variables for tables.
+                    tab_pipe_nb = []
+                    tab_vals = []
+                    tab_row_nb = 0
+                    row_ix = 0
+                    # Get number of columns in table.
+                    for line in lines:
+                        tab_pipe_nb.append(line.count('|'))
+                    tab_col_nb = max(tab_pipe_nb) - 1
+                    # Get nb of rows and values in table.
+                    for line in lines:
+                        if "+-" not in line and "-+" not in line and "+=" not in line and "=+" not in line:
+                            tab_row_nb += 1
+                            row_vals = line.split("|")
+                            row_vals.pop(0)
+                            row_vals.pop(-1)
+                            row_vals = [x.strip(' ') for x in row_vals]
+                            tab_vals.append(row_vals)
+                    # Init table.
+                    table = document.add_table(tab_row_nb, tab_col_nb)
+                    # Fill table.
+                    for row_vals in tab_vals:
+                        col_ix = 0
+                        if len(row_vals) == tab_col_nb:
+                            for value in row_vals:
+                                if value != '':
+                                    table.cell(row_ix, col_ix).text = value
+                                else:
+                                    table.cell(row_ix - 1, col_ix).merge(table.cell(row_ix, col_ix))
+                                col_ix += 1
+                        elif len(row_vals) == 1: 
+                            table.cell(row_ix, 0).text = row_vals[0]
+                            col_ix = 1
+                            while col_ix != tab_col_nb:
+                                table.cell(row_ix, col_ix - 1).merge(table.cell(row_ix, col_ix))
+                        else:
+# TO DO: Permit multi-col span with more than one value.
+                            pass
+                        row_ix += 1
                 # Sources.
                 elif lines[0].startswith(".. ["):
                     table = document.add_table(1, 2)
