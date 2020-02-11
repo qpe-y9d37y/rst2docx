@@ -150,7 +150,7 @@ def write_prgrph():
                 elif lines[0].strip()[0] in bullet_symbol and lines[0].strip()[1] == " ":
                     lead_space = len(lines[0]) - len(lines[0].strip())
                     bullet_lvl = int(lead_space / 2) + 1
-                    document.add_paragraph(separator.join(lines)[2:], 'Bullet_' + str(bullet_lvl))
+                    document.add_paragraph(separator.join(lines).strip()[2:], 'Bullet_' + str(bullet_lvl))
                 # Enumerated lists.
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
