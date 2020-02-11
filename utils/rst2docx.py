@@ -77,6 +77,8 @@ def title_notfound():
 def txt_style(p, split_prgrph):
     word_tag = "none"
     for word in split_prgrph:
+        if word == split_prgrph[-1] and word.endswith("::"):
+            word = word[:-1]
         if word_tag == "none":
             if word.startswith("*"):
                 if word.startswith("**"):
@@ -173,6 +175,9 @@ def write_prgrph():
                     table.cell(0, 0).width = Inches(0.5)
                     table.cell(0, 1).text = separator.join(prgrph.split()[2:])
                     table.cell(0, 1).width = Inches(5.6)
+                # Markup for code.
+                elif lines[0] == "::" and len(lines) == 1:
+                    pass
                 # Normal text.
                 else:
                     p = document.add_paragraph("", 'Normal')
