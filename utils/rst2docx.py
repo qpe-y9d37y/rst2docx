@@ -154,6 +154,7 @@ def write_prgrph():
                     bullet_lvl = int(lead_space / 2) + 1
                     document.add_paragraph(separator.join(lines).strip()[2:], 'Bullet_' + str(bullet_lvl))
                 # Enumerated lists.
+# TODO: Add enumerated lists.
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
                     if lines[0].split()[1][:-2] in attention_drctves:
@@ -181,6 +182,9 @@ def write_prgrph():
                     # Reset variables for tables.
                     tab_pipe_nb = []
                     tab_vals = []
+# TEST IN PROGRESS
+                    tab_vals_len = []
+# END TEST
                     tab_row_nb = 0
                     row_ix = 0
                     # Get number of columns in table.
@@ -194,8 +198,14 @@ def write_prgrph():
                             row_vals = line.split("|")
                             row_vals.pop(0)
                             row_vals.pop(-1)
+# TEST IN PROGRESS
+                            row_vals_len = [len(x) for x in row_vals]
+# END TEST
                             row_vals = [x.strip(' ') for x in row_vals]
                             tab_vals.append(row_vals)
+# TEST IN PROGRESS
+                            tab_vals_len.append(row_vals_len)
+# END TEST
                     # Init table.
                     table = document.add_table(tab_row_nb, tab_col_nb, 'Table_Light')
                     # Fill table.
@@ -213,10 +223,12 @@ def write_prgrph():
                             col_ix = 1
                             while col_ix != tab_col_nb:
                                 table.cell(row_ix, col_ix - 1).merge(table.cell(row_ix, col_ix))
+                                col_ix += 1
                         else:
-# TODO: Permit multi-col span with more than one value.
-# HINT: Count the number of characters between pipes.
-                            pass
+# TEST IN PROGRESS
+                            ...
+#                            pass
+# END TEST
                         row_ix += 1
                 # Sources.
                 elif lines[0].startswith(".. ["):
