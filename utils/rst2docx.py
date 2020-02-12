@@ -182,9 +182,8 @@ def write_prgrph():
                     # Reset variables for tables.
                     tab_pipe_nb = []
                     tab_vals = []
-# TEST IN PROGRESS
                     tab_vals_len = []
-# END TEST
+                    merge_tag = 0
                     tab_row_nb = 0
                     row_ix = 0
                     # Get number of columns in table.
@@ -198,14 +197,11 @@ def write_prgrph():
                             row_vals = line.split("|")
                             row_vals.pop(0)
                             row_vals.pop(-1)
-# TEST IN PROGRESS
                             row_vals_len = [len(x) for x in row_vals]
-# END TEST
                             row_vals = [x.strip(' ') for x in row_vals]
                             tab_vals.append(row_vals)
-# TEST IN PROGRESS
                             tab_vals_len.append(row_vals_len)
-# END TEST
+                    def_cell_len = min(tab_vals_len)
                     # Init table.
                     table = document.add_table(tab_row_nb, tab_col_nb, 'Table_Light')
                     # Fill table.
@@ -225,10 +221,28 @@ def write_prgrph():
                                 table.cell(row_ix, col_ix - 1).merge(table.cell(row_ix, col_ix))
                                 col_ix += 1
                         else:
-# TEST IN PROGRESS
-                            ...
-#                            pass
-# END TEST
+                            col_ix_src = col_ix
+                            while col_ix != tab_col_nb:
+                                if merge_tag == 1:
+                                    table.cell(row_ix, col_ix - 1).merge(table.cell(row_ix, col_ix))
+                                    len_merged_cell = tab_vals_len[row_ix][col_ix - 1]
+                                    current_merged_cell_len = def_cell_len[col_ix] + def_cell_len[col_ix - 1] + 1
+                                    col_ix += 1
+                                    while len_merged_cell != current_merged_cell_len:
+                                        table.cell(row_ix, col_ix - 1).merge(table.cell(row_ix, col_ix))
+                                        current_merged_cell_len = current_merged_cell_len + def_cell_len[col_ix] + 1
+                                        col_ix += 1
+                                    merge_tag = 0
+                                elif def_cell_len[col_ix] == tab_vals_len[row_ix][col_ix_src]:
+                                    table.cell(row_ix, col_ix).text = row_vals[col_ix_src]
+                                    merge_tag = 0
+                                    col_ix += 1
+                                    col_ix_src += 1
+                                elif def_cell_len[col_ix] != tab_vals_len[row_ix][col_ix_src]:
+                                    table.cell(row_ix, col_ix).text = row_vals[col_ix_src]
+                                    merge_tag = 1
+                                    col_ix += 1
+                                    col_ix_src += 1
                         row_ix += 1
                 # Sources.
                 elif lines[0].startswith(".. ["):
