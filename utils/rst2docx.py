@@ -93,12 +93,13 @@ def txt_style(p, split_prgrph):
                     else:
                         word_tag = "italics"
                         p.add_run(word[1:] + " ").italic = True
-#            elif word.startswith("``"):
-#                if word.endswith("``"):
-#                    ...
-#                else:
-#                    word_tag = "code"
-#                    ...
+            elif word.startswith("``"):
+                if word.endswith("``"):
+                    p.add_run(word[:-2][2:]).style = 'InlineCode'
+                    p.add_run(" ").style = None
+                else:
+                    word_tag = "code"
+                    p.add_run(word[2:] + " ").style = 'InlineCode'
             else:
                 p.add_run(word + " ")
         elif word_tag == "bold":
@@ -113,12 +114,13 @@ def txt_style(p, split_prgrph):
                 p.add_run(word[:-1] + " ").italic = True
             else:
                 p.add_run(word + " ").italic = True
-#        elif word_tab == "code":
-#            if word.endswith("``"):
-#                word_tag = "none"
-#                ...
-#            else:
-#                ...
+        elif word_tag == "code":
+            if word.endswith("``"):
+                word_tag = "none"
+                p.add_run(word[:-2]).style = 'InlineCode'
+                p.add_run(" ").style = None
+            else:
+                p.add_run(word + " ").style = 'InlineCode'
 
 # Function to write a paragraph from RST.
 def write_prgrph():
@@ -212,7 +214,8 @@ def write_prgrph():
                             while col_ix != tab_col_nb:
                                 table.cell(row_ix, col_ix - 1).merge(table.cell(row_ix, col_ix))
                         else:
-# TO DO: Permit multi-col span with more than one value.
+# TODO: Permit multi-col span with more than one value.
+# HINT: Count the number of characters between pipes.
                             pass
                         row_ix += 1
                 # Sources.
