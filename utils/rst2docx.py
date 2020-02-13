@@ -2,7 +2,7 @@
 
 ########################################################################
 # Python 3                                               Quentin Petit #
-# February 2020                              <quentin.petit@sogeti.lu> #
+# February 2020                                <petit.quent@gmail.com> #
 #                                                                      #
 #                             rst2docx.py                              #
 #                                                                      #
