@@ -363,6 +363,12 @@ document.add_paragraph(re.sub('\\n(?!\\n)' , ' ', config['DEFAULT']['Disclaimer'
 
 # Insert writing conventions.
 document.add_paragraph("Conventions", 'Header_A')
+document.add_paragraph("The following conventions are used in this document:", 'Normal')
+document.add_paragraph("Code blocks, commands or file content:", 'Bullet_1')
+document.add_paragraph("echo \"Hello Wold\"", 'Code')
+p = document.add_paragraph("The following text is a variable that should be replaced by it correct value: ", 'Bullet_1')
+p.add_run('${VERSION}').style = 'InlineCode'
+p.add_run(" ").style = None
 
 # Insert content.
 with open(src, "r") as src_file:
