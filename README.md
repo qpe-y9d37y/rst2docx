@@ -30,6 +30,18 @@ RST2DOCX is a tool written in Python used to format reStructuredText documentati
 
 ## Configuration Files
 
+### MS Word Template
+
+The MS Word Template should be named `tpl_rst2docx.docx` and stored under `./ini/`.
+
+To learn more about how to modify this template or create your own, check the `PYTHON-DOCX_Edition` documentation under `./tmp/`.
+
+### Variables File
+
+The configuration `rst2docx.ini` contains required variables for the utility `rst2docx.py`.
+
+The file `./ini/rst2docx.ini_OPENSRC` is a skeleton of this file, copy it or rename it as `./ini/rst2docx.ini` and adapt it with your own values.
+
 ## Usage
 
 ```
@@ -44,10 +56,10 @@ optional arguments:
 
 The following configuration files are mandatory:
 
-* `.\ini\rst2docx.ini`
-* `.\ini\tpl_rst2docx.docx`
+* `./ini/rst2docx.ini`
+* `./ini/tpl_rst2docx.docx`
 
-The formated DOCX file will be generated under `.\tmp\`.
+The formated DOCX file will be generated under `./tmp/`.
 
 ## Attribution
 
