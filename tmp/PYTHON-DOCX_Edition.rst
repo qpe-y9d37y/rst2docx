@@ -36,14 +36,62 @@ the setuptools module::
 Word Style Template
 ===================
 
-To create a template, open a new blank document in MS Word and in the
-"Home" tab, under "Styles", select "Create a Style". The styles that you
-will create are the ones that you will use when inserting text, in the
-following example "Title".
+The following instructions have been tested on MS Word 365, but it
+should be similar on other versions.
 
->>> document.add_paragraph('The Lord of the Rings', 'Title')
+In your template, you can set the header and footer.
 
-You can also add pictures on your cover page.
+Text Styles
+-----------
+
+There is several types of text styles: paragraph and character styles.
+
+Paragraph Styles
+~~~~~~~~~~~~~~~~
+
+Paragraph styles are used to insert styles, like you'll see a bit later
+on, with:
+
+>>> document.add_paragraph(text, style)
+
+To create a paragraph style, in the "Home" tab, under the "Styles"
+group, select "Create a Style". Choose a "Name" and click "Modify".
+Choose "Paragraph" as "Style type" and then format your new style the
+way you want. Click "OK" to save your style.
+
+Character Styles
+~~~~~~~~~~~~~~~~
+
+Character styles are used to modify the style of some characters, words
+or even sentences inside a paragraph. For example if you want a few
+words (such as a path) to appear as a fixed-space literal.
+
+To create a character style, follow the exact same steps as you did to
+create a paragraph style except that you need to choose "Character" as
+"Style type".
+
+Table Styles
+------------
+
+Table styles are used to insert tables, like you'll see a bit later on,
+with:
+
+>>> table = document.add_table(row_nb, col_nb, style)
+
+To create a table style, you can do it via the the same "Create a Style"
+menu as you did with the text styles and choosing "Table" as "Style
+type".
+
+Another way, is to insert a table ("Insert" tab and "Table"). Once you
+have inserted a table, go to the "Design" tab and choose "New Table
+Style" under "Table Styles". Format your style the way you want and
+click "OK" to save your style.
+
+Cover Page
+----------
+
+In your template, you can also add some pictures which will be used only
+on the cover page.
 
 Usage
 =====
@@ -110,6 +158,24 @@ To add a page break, do:
 
 >>> document.add_page_break()
 
+You can also change the style of a few characters, words or sentences
+inside a paragraph.
+
+To put some text in bold or italic, do:
+
+>>> p = document.add_paragraph('A paragraph having some ', 'Normal')
+>>> p.add_run('bold').bold = True
+>>> p.add_run(' and some ')
+>>> p.add_run('italic').italic = True
+>>> p.add_run('.')
+
+You can also change the style of some text with a "character style"
+(named InlineCode) in the example below:
+
+>>> p = document.add_paragraph('I have some ', 'Normal')
+>>> p.add_run("commands").style = 'InlineCode'
+>>> p.add_run(" in my paragraph").style = None
+
 Table in a Document
 -------------------
 
@@ -162,6 +228,19 @@ Now, you can use the function like:
 
 >>> shade_cells(table.cell(x, y), "FF6666")
 
+You can also merge cells, for example I want the folling table::
+
+      0    1
+    +----+----+
+  0 | A1 | A2 |
+    +====+====+
+  1 | B1      |
+    +----+----+
+
+I'll do:
+
+>>> table.cell(1, 0).merge(table.cell(1, 1))
+
 Picture in a Document
 ---------------------
 
@@ -195,12 +274,12 @@ To save the document, do:
 
 >>> document.save(docx_output)
 
-.. DANGER::
-   Beware killer rabbits!
-
 Sources
 =======
 
 .. [CAN19] Canny, S. (2019). python-docx. [online]
    Python-docx.readthedocs.io. Available at:
    https://python-docx.readthedocs.io/en/latest/ [Accessed 6 Feb. 2020].
+
+.. [TOL54] Tolkien, JRR. (1954). The Lord of the Rings: The Fellowship
+   of the Ring.
