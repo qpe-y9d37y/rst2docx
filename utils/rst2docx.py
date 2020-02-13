@@ -154,7 +154,11 @@ def write_prgrph():
                     bullet_lvl = int(lead_space / 2) + 1
                     document.add_paragraph(separator.join(lines).strip()[2:], 'Bullet_' + str(bullet_lvl))
                 # Enumerated lists.
-# TODO: Add enumerated lists.
+                elif re.match('^[(\d\w]+[).]$', lines[0].strip().split()[0]):
+                    lead_space = len(lines[0]) - len(lines[0].strip())
+                    number_lvl = int(lead_space / 3) + 1
+#                    document.add_paragraph(separator.join(lines).strip()[3:], 'Number_' + str(number_lvl))
+                    document.add_paragraph(separator.join(separator.join([x.strip() for x in lines]).split()[1:]), 'Number_' + str(number_lvl))
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
                     if lines[0].split()[1][:-2] in attention_drctves:
