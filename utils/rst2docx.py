@@ -257,9 +257,9 @@ def write_prgrph():
                 elif lines[0].startswith(".. ["):
                     table = document.add_table(1, 2)
                     table.cell(0, 0).text = prgrph.split()[1]
-                    table.cell(0, 0).width = Inches(0.5)
+                    table.cell(0, 0).width = Inches(0.8)
                     table.cell(0, 1).text = separator.join(prgrph.split()[2:])
-                    table.cell(0, 1).width = Inches(5.6)
+                    table.cell(0, 1).width = Inches(5.3)
                 # Markup for code.
                 elif lines[0] == "::" and len(lines) == 1:
                     pass
