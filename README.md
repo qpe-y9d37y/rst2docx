@@ -65,6 +65,14 @@ The formated DOCX file will be generated under `./tmp/`.
 
 The images used in the MS Word template example are under the Creative Commons license:
 
-* EuroLuxemburgo: Jlechuga86 [CC BY (https://creativecommons.org/licenses/by/3.0)]. Retrieved from: https://commons.wikimedia.org/wiki/File:EuroLuxemburgo.svg
+* EuroLuxemburgo: Jlechuga86 [CC BY](https://creativecommons.org/licenses/by/3.0). Retrieved from: https://commons.wikimedia.org/wiki/File:EuroLuxemburgo.svg
 
-* Snake-anatomy: Uwe Gille [CC BY-SA (http://creativecommons.org/licenses/by-sa/3.0/)]. Retrieved from: https://commons.wikimedia.org/wiki/File:Snake-anatomy.svg
+* Snake-anatomy: Uwe Gille [CC BY-SA](http://creativecommons.org/licenses/by-sa/3.0/). Retrieved from: https://commons.wikimedia.org/wiki/File:Snake-anatomy.svg
+
+## Authors
+
+* **Quentin Petit** - *Initial work*
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
