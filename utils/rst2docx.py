@@ -359,7 +359,7 @@ document.add_page_break()
 
 # Insert disclaimer.
 document.add_paragraph("Disclaimer", 'Header_A')
-document.add_paragraph(re.sub('\\n(?!\\n)' , ' ', config['DEFAULT']['Disclaimer']), 'Normal')
+document.add_paragraph(re.sub('\\n(?!\\n)' , ' ', config['DEFAULT']['Disclaimer']).replace('\n ', '\n\n'), 'Normal')
 
 # Insert writing conventions.
 document.add_paragraph("Conventions", 'Header_A')
