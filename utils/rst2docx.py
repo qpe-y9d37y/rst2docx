@@ -6,7 +6,7 @@
 #                                                                      #
 #                             rst2docx.py                              #
 #                                                                      #
-# Current version: 0.1.0                                               #
+# Current version: 1.0.0                                               #
 # Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to format reStructuredText notes to MS docx   #
@@ -17,6 +17,8 @@
 # |   Date   | Version | Comment                                     | #
 # +==========+=========+=============================================+ #
 # | 20200207 | 0.1.0   | First development                           | #
+# +----------+---------+---------------------------------------------+ #
+# | 20200213 | 1.0.0   | Fist stable version                         | #
 # +----------+---------+---------------------------------------------+ #
 #                                                                      #
 # The prerequisites to use this script are:                            #
@@ -390,6 +392,10 @@ document.add_paragraph("EMail: " + config['User']['Email'], 'No_Spacing')
 
 # Save document.
 document.save(docx_output)
+
+# Cleanup
+os.remove(file_tmpprgrph)
+os.remove(file_tmpprgrphold)
 
 #                                                                      #
 #                                  END                                 #
