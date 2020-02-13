@@ -2,7 +2,7 @@
 
 ########################################################################
 # Python 3                                               Quentin Petit #
-# February 2020                                <petit.quent@gmail.com> #
+# February 2020                              <quentin.petit@sogeti.lu> #
 #                                                                      #
 #                             rst2docx.py                              #
 #                                                                      #
@@ -15,7 +15,7 @@
 # Version history:                                                     #
 # +----------+---------+---------------------------------------------+ #
 # |   Date   | Version | Comment                                     | #
-# +----------+---------+---------------------------------------------+ #
+# +==========+=========+=============================================+ #
 # | 20200207 | 0.1.0   | First development                           | #
 # +----------+---------+---------------------------------------------+ #
 #                                                                      #
@@ -30,6 +30,7 @@
 #                                                                      #
 
 import argparse
+import configparser
 import os
 import re
 import shutil
@@ -50,17 +51,20 @@ dir_tmp = dir_root + "/tmp/"
 docx_template = dir_ini + "tpl_rst2docx.docx"
 file_tmpprgrph = dir_tmp + "tmp_paragraph"
 file_tmpprgrphold = dir_tmp + "tmp_paragraph_previous"
+file_ini = dir_ini + "rst2docx.ini"
 
-#
+# Lists and symbols.
 nonalphanum = ["=","-","`",":","'","\"","~","^","_","*","+","#","<",">"]
 bullet_symbol = ["*","-","+"]
-header_symbol = []
 admonition_drctves = ["ATTENTION","CAUTION","DANGER","ERROR","HINT","IMPORTANT","NOTE","TIP","WARNING","ADMONITION"]
 attention_drctves = ["ATTENTION","CAUTION","WARNING"]
 danger_drctves = ["DANGER","ERROR"]
 hint_drctves = ["HINT","IMPORTANT","TIP"]
 note_drctves = ["NOTE","ADMONITION"]
+
+# Declaration of variables
 separator = " "
+header_symbol = []
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #                                                                      #
@@ -157,7 +161,6 @@ def write_prgrph():
                 elif re.match('^[(\d\w]+[).]$', lines[0].strip().split()[0]):
                     lead_space = len(lines[0]) - len(lines[0].strip())
                     number_lvl = int(lead_space / 3) + 1
-#                    document.add_paragraph(separator.join(lines).strip()[3:], 'Number_' + str(number_lvl))
                     document.add_paragraph(separator.join(separator.join([x.strip() for x in lines]).split()[1:]), 'Number_' + str(number_lvl))
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
@@ -292,6 +295,15 @@ if not os.path.isfile(src):
     print("error: file " + src + " doesn't exist, bye")
     sys.exit(1)
 
+# Print error and quit if ini file doesn't exist.
+if not os.path.isfile(file_ini):
+    print("error: ini file " + file_ini + " doesn't exist, bye")
+    sys.exit(1)
+
+# Open config file.
+config = configparser.ConfigParser()
+config.read(file_ini)
+
 # Create directories if not existing.
 if not os.path.isdir(dir_tmp):
     os.makedirs(dir_tmp)
@@ -346,8 +358,11 @@ with open(src, "r") as src_file:
 document.add_page_break()
 
 # Insert disclaimer.
+document.add_paragraph("Disclaimer", 'Header_A')
+document.add_paragraph(re.sub('\\n(?!\\n)' , ' ', config['DEFAULT']['Disclaimer']), 'Normal')
 
 # Insert writing conventions.
+document.add_paragraph("Conventions", 'Header_A')
 
 # Insert content.
 with open(src, "r") as src_file:
@@ -361,6 +376,11 @@ with open(src, "r") as src_file:
 write_prgrph()
 
 # Insert authors details.
+document.add_paragraph("Authors", 'Header_A')
+document.add_paragraph(config['User']['Full_name'] + " (editor)", 'No_Spacing')
+document.add_paragraph(config['User']['Corp'], 'No_Spacing')
+document.add_paragraph(config['User']['Corp_Address'], 'No_Spacing')
+document.add_paragraph("EMail: " + config['User']['Email'], 'No_Spacing')
 
 # Save document.
 document.save(docx_output)
