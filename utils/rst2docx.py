@@ -6,7 +6,7 @@
 #                                                                      #
 #                             rst2docx.py                              #
 #                                                                      #
-# Current version: 1.0.0                                               #
+# Current version: 1.0.1                                               #
 # Status: Work in progress                                             #
 #                                                                      #
 # This script purpose it to format reStructuredText notes to MS docx   #
@@ -19,6 +19,8 @@
 # | 20200207 | 0.1.0   | First development                           | #
 # +----------+---------+---------------------------------------------+ #
 # | 20200213 | 1.0.0   | Fist stable version                         | #
+# +----------+---------+---------------------------------------------+ #
+# | 20200217 | 1.0.1   | Now using txt_style when inserting lists    | #
 # +----------+---------+---------------------------------------------+ #
 #                                                                      #
 # The prerequisites to use this script are:                            #
@@ -154,16 +156,20 @@ def write_prgrph():
                 # Python code blocks.
                 elif prgrph.startswith(">>> "):
                     document.add_paragraph(prgrph.rstrip(), 'Code')
-                # Bulleted lists.
+                # Bulleted lists.                                       ### MODIFY FUNCTION TO REMOVE "::"
                 elif lines[0].strip()[0] in bullet_symbol and lines[0].strip()[1] == " ":
                     lead_space = len(lines[0]) - len(lines[0].strip())
                     bullet_lvl = int(lead_space / 2) + 1
-                    document.add_paragraph(separator.join(lines).strip()[2:], 'Bullet_' + str(bullet_lvl))
+                    p = document.add_paragraph("", 'Bullet_' + str(bullet_lvl))
+                    split_prgrph = prgrph.split()[1:]
+                    txt_style(p, split_prgrph)
                 # Enumerated lists.
                 elif re.match('^[(\d\w]+[).]$', lines[0].strip().split()[0]):
                     lead_space = len(lines[0]) - len(lines[0].strip())
                     number_lvl = int(lead_space / 3) + 1
-                    document.add_paragraph(separator.join(separator.join([x.strip() for x in lines]).split()[1:]), 'Number_' + str(number_lvl))
+                    p = document.add_paragraph("", 'Number_' + str(number_lvl))
+                    split_prgrph = prgrph.split()[1:]
+                    txt_style(p, split_prgrph)
                 # Admonitions.
                 elif lines[0].split()[0] == ".." and lines[0].split()[1][:-2] in admonition_drctves:
                     if lines[0].split()[1][:-2] in attention_drctves:
@@ -257,9 +263,9 @@ def write_prgrph():
                 elif lines[0].startswith(".. ["):
                     table = document.add_table(1, 2)
                     table.cell(0, 0).text = prgrph.split()[1]
-                    table.cell(0, 0).width = Inches(0.8)
+                    table.cell(0, 0).width = Inches(0.83)
                     table.cell(0, 1).text = separator.join(prgrph.split()[2:])
-                    table.cell(0, 1).width = Inches(5.3)
+                    table.cell(0, 1).width = Inches(5.5)
                 # Markup for code.
                 elif lines[0] == "::" and len(lines) == 1:
                     pass
