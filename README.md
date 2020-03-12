@@ -28,6 +28,10 @@ RST2DOCX is a tool written in Python used to format reStructuredText documentati
 * The `tmp` directory contains a documentation about python-docx and some details about how to create a MS Word Template. This documentation is also used as an example of reStructuredText documentation and formatted DOCX file.
 * The `utils` directory contains the script to format reStructuredText documentation to MS Word docx files.
 
+## Prerequisites
+
+To be able to use rst2docx, `python3` and the python package `python-docx` should be installed.
+
 ## Configuration Files
 
 ### MS Word Template
